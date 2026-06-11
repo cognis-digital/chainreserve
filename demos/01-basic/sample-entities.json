@@ -1,0 +1,120 @@
+{
+  "_meta": {
+    "schema": "chainreserve.entities/1",
+    "description": "Demo subset of PUBLIC, entity-level crypto-intelligence records used by SCENARIO.md. Illustrative public-disclosure snapshots; every record carries a public source URL.",
+    "as_of": "2026-06-01"
+  },
+  "reserves": [
+    {
+      "entity": "Binance",
+      "kind": "cex",
+      "jurisdiction": "global",
+      "asset": "BTC",
+      "amount": 582485.0,
+      "unit": "BTC",
+      "as_of": "2026-05-01",
+      "method": "proof-of-reserves attestation",
+      "source": "https://www.binance.com/en/proof-of-reserves"
+    },
+    {
+      "entity": "Coinbase",
+      "kind": "cex",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "amount": 956000.0,
+      "unit": "BTC",
+      "as_of": "2026-03-31",
+      "method": "10-Q custodial disclosure (illustrative)",
+      "source": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001679788&type=10-Q"
+    }
+  ],
+  "flows": [
+    {
+      "entity": "BlackRock iShares Bitcoin Trust (IBIT)",
+      "kind": "spot_etf",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "holdings": 612000.0,
+      "unit": "BTC",
+      "flow_period": "2026-05",
+      "net_flow_usd": 1850000000.0,
+      "as_of": "2026-05-31",
+      "source": "https://www.ishares.com/us/products/333011/ishares-bitcoin-trust"
+    },
+    {
+      "entity": "Strategy (formerly MicroStrategy)",
+      "kind": "public_company_treasury",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "holdings": 592100.0,
+      "unit": "BTC",
+      "flow_period": "2026-Q1",
+      "net_flow_usd": 2000000000.0,
+      "as_of": "2026-03-31",
+      "source": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001050446&type=8-K"
+    }
+  ],
+  "seizures": [
+    {
+      "entity": "U.S. Marshals Service / DOJ",
+      "kind": "government_seizure",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "amount": 69370.0,
+      "unit": "BTC",
+      "case": "Silk Road / Individual X forfeiture",
+      "event_date": "2020-11-03",
+      "status": "forfeited",
+      "source": "https://www.justice.gov/usao-ndca/pr/us-attorney-announces-historic-1-billion-bitcoin-seizure"
+    },
+    {
+      "entity": "Bundeskriminalamt (BKA), Germany",
+      "kind": "government_seizure",
+      "jurisdiction": "DE",
+      "asset": "BTC",
+      "amount": 49857.0,
+      "unit": "BTC",
+      "case": "movie2k.to piracy proceeds",
+      "event_date": "2024-01-29",
+      "status": "liquidated",
+      "source": "https://www.bka.de/DE/Presse/Listenseite_Pressemitteilungen/pressemitteilungen_node.html"
+    }
+  ],
+  "strategic_reserves": [
+    {
+      "entity": "El Salvador (Government)",
+      "kind": "sovereign_reserve",
+      "jurisdiction": "SV",
+      "asset": "BTC",
+      "amount": 6089.0,
+      "unit": "BTC",
+      "program": "Bitcoin Law / national treasury",
+      "as_of": "2026-05-31",
+      "source": "https://bitcoin.gob.sv/"
+    },
+    {
+      "entity": "Kingdom of Bhutan (Druk Holding)",
+      "kind": "sovereign_reserve",
+      "jurisdiction": "BT",
+      "asset": "BTC",
+      "amount": 13029.0,
+      "unit": "BTC",
+      "program": "sovereign investment / mining",
+      "as_of": "2026-04-30",
+      "source": "https://www.dhi.bt/"
+    }
+  ],
+  "whales": [
+    {
+      "entity": "Mt. Gox Estate (rehabilitation trustee)",
+      "kind": "whale_cluster",
+      "jurisdiction": "JP",
+      "asset": "BTC",
+      "amount": 135000.0,
+      "unit": "BTC",
+      "label": "trustee distribution wallets, on-chain labeled",
+      "as_of": "2026-02-01",
+      "source": "https://www.mtgox.com/"
+    }
+  ]
+}

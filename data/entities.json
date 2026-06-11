@@ -1,0 +1,258 @@
+{
+  "_meta": {
+    "schema": "chainreserve.entities/1",
+    "description": "Bundled sample of PUBLIC, ENTITY-LEVEL crypto market-intelligence records. No private-individual PII. Every record carries a public 'source' URL. Figures are illustrative snapshots of public disclosures and on-chain labels; refresh from primary sources before relying on them.",
+    "as_of": "2026-06-01",
+    "disclaimer": "Aggregates public disclosures (filings, press releases, government notices) and public on-chain entity labels. Not investment advice."
+  },
+  "reserves": [
+    {
+      "entity": "Binance",
+      "kind": "cex",
+      "jurisdiction": "global",
+      "asset": "BTC",
+      "amount": 582485.0,
+      "unit": "BTC",
+      "as_of": "2026-05-01",
+      "method": "proof-of-reserves attestation",
+      "source": "https://www.binance.com/en/proof-of-reserves"
+    },
+    {
+      "entity": "Binance",
+      "kind": "cex",
+      "jurisdiction": "global",
+      "asset": "ETH",
+      "amount": 4210000.0,
+      "unit": "ETH",
+      "as_of": "2026-05-01",
+      "method": "proof-of-reserves attestation",
+      "source": "https://www.binance.com/en/proof-of-reserves"
+    },
+    {
+      "entity": "Coinbase",
+      "kind": "cex",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "amount": 956000.0,
+      "unit": "BTC",
+      "as_of": "2026-03-31",
+      "method": "10-Q custodial disclosure (illustrative)",
+      "source": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001679788&type=10-Q"
+    },
+    {
+      "entity": "Kraken",
+      "kind": "cex",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "amount": 142000.0,
+      "unit": "BTC",
+      "as_of": "2026-04-15",
+      "method": "proof-of-reserves attestation",
+      "source": "https://www.kraken.com/proof-of-reserves"
+    },
+    {
+      "entity": "OKX",
+      "kind": "cex",
+      "jurisdiction": "global",
+      "asset": "BTC",
+      "amount": 121000.0,
+      "unit": "BTC",
+      "as_of": "2026-05-01",
+      "method": "proof-of-reserves attestation",
+      "source": "https://www.okx.com/proof-of-reserves"
+    },
+    {
+      "entity": "Bitfinex",
+      "kind": "cex",
+      "jurisdiction": "global",
+      "asset": "BTC",
+      "amount": 198000.0,
+      "unit": "BTC",
+      "as_of": "2026-05-01",
+      "method": "public wallet labels (on-chain)",
+      "source": "https://www.bitfinex.com/posts/"
+    }
+  ],
+  "flows": [
+    {
+      "entity": "BlackRock iShares Bitcoin Trust (IBIT)",
+      "kind": "spot_etf",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "holdings": 612000.0,
+      "unit": "BTC",
+      "flow_period": "2026-05",
+      "net_flow_usd": 1850000000.0,
+      "as_of": "2026-05-31",
+      "source": "https://www.ishares.com/us/products/333011/ishares-bitcoin-trust"
+    },
+    {
+      "entity": "Fidelity Wise Origin Bitcoin Fund (FBTC)",
+      "kind": "spot_etf",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "holdings": 201000.0,
+      "unit": "BTC",
+      "flow_period": "2026-05",
+      "net_flow_usd": 430000000.0,
+      "as_of": "2026-05-31",
+      "source": "https://institutional.fidelity.com/app/funds-and-products/3922/fidelity-wise-origin-bitcoin-fund-fbtc.html"
+    },
+    {
+      "entity": "Strategy (formerly MicroStrategy)",
+      "kind": "public_company_treasury",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "holdings": 592100.0,
+      "unit": "BTC",
+      "flow_period": "2026-Q1",
+      "net_flow_usd": 2000000000.0,
+      "as_of": "2026-03-31",
+      "source": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001050446&type=8-K"
+    },
+    {
+      "entity": "Tesla, Inc.",
+      "kind": "public_company_treasury",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "holdings": 11509.0,
+      "unit": "BTC",
+      "flow_period": "2026-Q1",
+      "net_flow_usd": 0.0,
+      "as_of": "2026-03-31",
+      "source": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001318605&type=10-Q"
+    },
+    {
+      "entity": "Grayscale Ethereum Trust (ETHE)",
+      "kind": "spot_etf",
+      "jurisdiction": "US",
+      "asset": "ETH",
+      "holdings": 1850000.0,
+      "unit": "ETH",
+      "flow_period": "2026-05",
+      "net_flow_usd": -120000000.0,
+      "as_of": "2026-05-31",
+      "source": "https://etherscan.io/accounts/label/grayscale"
+    }
+  ],
+  "seizures": [
+    {
+      "entity": "U.S. Marshals Service / DOJ",
+      "kind": "government_seizure",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "amount": 69370.0,
+      "unit": "BTC",
+      "case": "Silk Road / Individual X forfeiture",
+      "event_date": "2020-11-03",
+      "status": "forfeited",
+      "source": "https://www.justice.gov/usao-ndca/pr/us-attorney-announces-historic-1-billion-bitcoin-seizure"
+    },
+    {
+      "entity": "U.S. DOJ",
+      "kind": "government_seizure",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "amount": 94636.0,
+      "unit": "BTC",
+      "case": "Bitfinex 2016 hack recovery",
+      "event_date": "2022-02-08",
+      "status": "seized",
+      "source": "https://www.justice.gov/opa/pr/two-arrested-alleged-conspiracy-launder-45-billion-stolen-cryptocurrency"
+    },
+    {
+      "entity": "Bundeskriminalamt (BKA), Germany",
+      "kind": "government_seizure",
+      "jurisdiction": "DE",
+      "asset": "BTC",
+      "amount": 49857.0,
+      "unit": "BTC",
+      "case": "movie2k.to piracy proceeds",
+      "event_date": "2024-01-29",
+      "status": "liquidated",
+      "source": "https://www.bka.de/DE/Presse/Listenseite_Pressemitteilungen/pressemitteilungen_node.html"
+    },
+    {
+      "entity": "UK National Crime Agency",
+      "kind": "government_seizure",
+      "jurisdiction": "UK",
+      "asset": "BTC",
+      "amount": 61000.0,
+      "unit": "BTC",
+      "case": "Qian Zhimin / Jian Wen money-laundering",
+      "event_date": "2024-03-25",
+      "status": "seized",
+      "source": "https://www.nationalcrimeagency.gov.uk/news"
+    }
+  ],
+  "strategic_reserves": [
+    {
+      "entity": "El Salvador (Government)",
+      "kind": "sovereign_reserve",
+      "jurisdiction": "SV",
+      "asset": "BTC",
+      "amount": 6089.0,
+      "unit": "BTC",
+      "program": "Bitcoin Law / national treasury",
+      "as_of": "2026-05-31",
+      "source": "https://bitcoin.gob.sv/"
+    },
+    {
+      "entity": "Kingdom of Bhutan (Druk Holding)",
+      "kind": "sovereign_reserve",
+      "jurisdiction": "BT",
+      "asset": "BTC",
+      "amount": 13029.0,
+      "unit": "BTC",
+      "program": "sovereign investment / mining",
+      "as_of": "2026-04-30",
+      "source": "https://www.dhi.bt/"
+    },
+    {
+      "entity": "United States (Strategic Bitcoin Reserve)",
+      "kind": "sovereign_reserve",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "amount": 198000.0,
+      "unit": "BTC",
+      "program": "Executive Order strategic reserve (illustrative)",
+      "as_of": "2026-03-06",
+      "source": "https://www.whitehouse.gov/presidential-actions/"
+    }
+  ],
+  "whales": [
+    {
+      "entity": "Silk Road / Individual X cluster (forfeited)",
+      "kind": "whale_cluster",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "amount": 69370.0,
+      "unit": "BTC",
+      "label": "DOJ-controlled, on-chain labeled",
+      "as_of": "2026-01-01",
+      "source": "https://www.blockchain.com/explorer/addresses/btc/bc1qa5wkgaew2dkv56kfvj49j0av5nml45x9ek9hz6"
+    },
+    {
+      "entity": "Mt. Gox Estate (rehabilitation trustee)",
+      "kind": "whale_cluster",
+      "jurisdiction": "JP",
+      "asset": "BTC",
+      "amount": 135000.0,
+      "unit": "BTC",
+      "label": "trustee distribution wallets, on-chain labeled",
+      "as_of": "2026-02-01",
+      "source": "https://www.mtgox.com/"
+    },
+    {
+      "entity": "Binance cold wallet cluster",
+      "kind": "whale_cluster",
+      "jurisdiction": "global",
+      "asset": "BTC",
+      "amount": 248597.0,
+      "unit": "BTC",
+      "label": "exchange cold storage, on-chain labeled",
+      "as_of": "2026-05-01",
+      "source": "https://www.blockchain.com/explorer/addresses/btc/34xp4vRoCGJym3xR7yCVPFHoCNxv4Twseo"
+    }
+  ]
+}
