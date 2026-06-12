@@ -207,6 +207,96 @@ def all_records(data: Dict[str, Any]) -> List[Record]:
 
 
 # --------------------------------------------------------------------------- #
+# Export (csv / graphml) + --since filter
+# (serializers drafted by the local fleet, corrected here: the draft's
+#  DictWriter threw on extra keys and its GraphML lacked xmlns and used
+#  unescaped/colliding node ids — fixed to a namespaced, prefixed graph.)
+# --------------------------------------------------------------------------- #
+
+def _row_date(row: Dict[str, Any]) -> str:
+    """First YYYY-MM-DD found in a record's time-bearing fields, else ''."""
+    for k in ("event_date", "as_of", "flow_period"):
+        v = str(row.get(k, "") or "")
+        if len(v) >= 10 and v[4] == "-" and v[7] == "-":
+            return v[:10]
+    return ""
+
+
+def records_to_csv(rows: List[Dict[str, Any]]) -> str:
+    import csv
+    import io
+    base = ["category", "entity", "asset", "source"]
+    extra = sorted({k for r in rows for k in r.keys() if k not in base})
+    fields = base + extra
+    buf = io.StringIO()
+    w = csv.DictWriter(buf, fieldnames=fields, extrasaction="ignore")
+    w.writeheader()
+    for r in rows:
+        w.writerow({k: r.get(k, "") for k in fields})
+    return buf.getvalue()
+
+
+def records_to_graphml(rows: List[Dict[str, Any]]) -> str:
+    from xml.sax.saxutils import escape, quoteattr
+    ents = set()
+    assets = set()
+    edges = []
+    for r in rows:
+        ent = (r.get("entity") or "").strip()
+        asset = (r.get("asset") or "").strip()
+        if ent:
+            ents.add(ent)
+        if asset:
+            assets.add(asset)
+        if ent and asset:
+            edges.append((ent, asset, r.get("category") or ""))
+    out = ['<?xml version="1.0" encoding="UTF-8"?>',
+           '<graphml xmlns="http://graphml.graphdrawing.org/xmlns">',
+           '  <key id="d0" for="node" attr.name="label" attr.type="string"/>',
+           '  <key id="d1" for="node" attr.name="kind" attr.type="string"/>',
+           '  <key id="d2" for="edge" attr.name="category" attr.type="string"/>',
+           '  <graph edgedefault="directed">']
+    for ent in sorted(ents):
+        out.append(f"    <node id={quoteattr('ent:' + ent)}>"
+                   f'<data key="d0">{escape(ent)}</data>'
+                   f'<data key="d1">entity</data></node>')
+    for asset in sorted(assets):
+        out.append(f"    <node id={quoteattr('asset:' + asset)}>"
+                   f'<data key="d0">{escape(asset)}</data>'
+                   f'<data key="d1">asset</data></node>')
+    for i, (ent, asset, cat) in enumerate(edges):
+        out.append(f'    <edge id="e{i}" source={quoteattr("ent:" + ent)} '
+                   f"target={quoteattr('asset:' + asset)}>"
+                   f'<data key="d2">{escape(cat)}</data></edge>')
+    out.append("  </graph>")
+    out.append("</graphml>")
+    return "\n".join(out) + "\n"
+
+
+def export(fmt: str, data_path: Optional[str] = None,
+           out: Optional[str] = None, since: Optional[str] = None) -> str:
+    """Export the dataset as json/csv/graphml; optional --since YYYY-MM-DD
+    filter on time-bearing rows (rows without a date are kept)."""
+    data = load_dataset(data_path)
+    rows = [r.to_dict() for r in all_records(data)]
+    if since:
+        rows = [r for r in rows if (not _row_date(r)) or _row_date(r) >= since]
+    if fmt == "json":
+        text = json.dumps({"tool": TOOL_NAME, "version": TOOL_VERSION,
+                           "record_count": len(rows), "records": rows}, indent=2)
+    elif fmt == "csv":
+        text = records_to_csv(rows)
+    elif fmt == "graphml":
+        text = records_to_graphml(rows)
+    else:
+        raise ValueError(f"unknown export format: {fmt!r}")
+    if out:
+        with open(out, "w", encoding="utf-8", newline="") as fh:
+            fh.write(text)
+    return text
+
+
+# --------------------------------------------------------------------------- #
 # Queries
 # --------------------------------------------------------------------------- #
 

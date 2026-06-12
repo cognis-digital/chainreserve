@@ -13,6 +13,7 @@ from chainreserve.core import (
     DataError,
     Report,
     enrich_btc_price,
+    export,
     query_category,
     query_entity,
 )
@@ -129,6 +130,12 @@ def _build_parser() -> argparse.ArgumentParser:
 
     sub.add_parser("categories", help="List the tracked intelligence categories.")
     sub.add_parser("mcp", help="Run as an MCP server (stdio JSON-RPC).")
+
+    ex = sub.add_parser("export", help="Export the whole dataset (json/csv/graphml).")
+    ex.add_argument("--format", choices=("json", "csv", "graphml"), default="json")
+    ex.add_argument("--data", help="Path to an entities dataset JSON.")
+    ex.add_argument("--out", help="Write to this file instead of stdout.")
+    ex.add_argument("--since", help="Filter time-bearing rows on/after YYYY-MM-DD.")
     return p
 
 
@@ -174,11 +181,26 @@ def _run_categories() -> int:
     return 0
 
 
+def _run_export(args: argparse.Namespace) -> int:
+    try:
+        text = export(args.format, data_path=args.data, out=args.out, since=args.since)
+    except (DataError, ValueError) as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
+    if args.out:
+        print(f"wrote {args.out}", file=sys.stderr)
+    else:
+        print(text)
+    return 0
+
+
 def main(argv: Optional[List[str]] = None) -> int:
     parser = _build_parser()
     args = parser.parse_args(argv)
     if args.command in _SUBCOMMAND_CATEGORY:
         return _run_category(args)
+    if args.command == "export":
+        return _run_export(args)
     if args.command == "entity":
         return _run_entity(args)
     if args.command == "categories":
