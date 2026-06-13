@@ -28,6 +28,30 @@ It runs as a **CLI** and as a local **MCP server** (stdio JSON-RPC), with
 > Not investment advice.
 
 <!-- cognis:domains:start -->
+## Usage — step by step
+
+1. **Install** from source (Python 3.9+; bundles `data/entities.json`):
+   ```bash
+   pip install .
+   ```
+2. **List** the tracked intelligence categories:
+   ```bash
+   chainreserve categories
+   ```
+3. **Query** exchange reserves, treasury flows, or seizures (filter by asset):
+   ```bash
+   chainreserve reserves --asset BTC --format json
+   ```
+4. **Look up** all public records for one entity:
+   ```bash
+   chainreserve entity Binance --format json
+   ```
+5. **Export / automate** the whole dataset for downstream pipelines:
+   ```bash
+   chainreserve export --format csv --since 2024-01-01 --out reserves.csv
+   ```
+   Other subcommands: `flows`, `seizures`, `reserves-strategic`, `whales`, and `mcp` (MCP stdio server).
+
 ## Domains
 
 **Primary domain:** AI & ML  ·  **JTF MERIDIAN division:** ATHENA-PRIME · SAGE
