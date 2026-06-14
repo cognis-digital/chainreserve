@@ -38,3 +38,6 @@ artifacts = ["data/entities.json"]
 
 [tool.hatch.build.targets.wheel.force-include]
 "data/entities.json" = "data/entities.json"
+
+[tool.hatch.metadata]
+allow-direct-references = true
