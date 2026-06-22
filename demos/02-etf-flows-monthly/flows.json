@@ -1,0 +1,93 @@
+{
+  "_meta": {
+    "schema": "chainreserve.entities/1",
+    "description": "PUBLIC spot-ETF and public-company treasury holdings/net-flows for a single reporting month. Illustrative snapshots of public disclosures (issuer fact sheets, SEC filings). Every record carries a public source URL. Not investment advice.",
+    "as_of": "2026-05-31"
+  },
+  "flows": [
+    {
+      "entity": "BlackRock iShares Bitcoin Trust (IBIT)",
+      "kind": "spot_etf",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "holdings": 612000.0,
+      "unit": "BTC",
+      "flow_period": "2026-05",
+      "net_flow_usd": 1850000000.0,
+      "as_of": "2026-05-31",
+      "source": "https://www.ishares.com/us/products/333011/ishares-bitcoin-trust"
+    },
+    {
+      "entity": "Fidelity Wise Origin Bitcoin Fund (FBTC)",
+      "kind": "spot_etf",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "holdings": 201000.0,
+      "unit": "BTC",
+      "flow_period": "2026-05",
+      "net_flow_usd": 430000000.0,
+      "as_of": "2026-05-31",
+      "source": "https://institutional.fidelity.com/app/funds-and-products/3922/fidelity-wise-origin-bitcoin-fund-fbtc.html"
+    },
+    {
+      "entity": "ARK 21Shares Bitcoin ETF (ARKB)",
+      "kind": "spot_etf",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "holdings": 48000.0,
+      "unit": "BTC",
+      "flow_period": "2026-05",
+      "net_flow_usd": -90000000.0,
+      "as_of": "2026-05-31",
+      "source": "https://www.ark-funds.com/funds/arkb"
+    },
+    {
+      "entity": "Grayscale Bitcoin Trust (GBTC)",
+      "kind": "spot_etf",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "holdings": 192000.0,
+      "unit": "BTC",
+      "flow_period": "2026-05",
+      "net_flow_usd": -210000000.0,
+      "as_of": "2026-05-31",
+      "source": "https://www.grayscale.com/funds/grayscale-bitcoin-trust"
+    },
+    {
+      "entity": "Grayscale Ethereum Trust (ETHE)",
+      "kind": "spot_etf",
+      "jurisdiction": "US",
+      "asset": "ETH",
+      "holdings": 1850000.0,
+      "unit": "ETH",
+      "flow_period": "2026-05",
+      "net_flow_usd": -120000000.0,
+      "as_of": "2026-05-31",
+      "source": "https://www.grayscale.com/funds/grayscale-ethereum-trust"
+    },
+    {
+      "entity": "Strategy (formerly MicroStrategy)",
+      "kind": "public_company_treasury",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "holdings": 592100.0,
+      "unit": "BTC",
+      "flow_period": "2026-Q1",
+      "net_flow_usd": 2000000000.0,
+      "as_of": "2026-03-31",
+      "source": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001050446&type=8-K"
+    },
+    {
+      "entity": "Tesla, Inc.",
+      "kind": "public_company_treasury",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "holdings": 11509.0,
+      "unit": "BTC",
+      "flow_period": "2026-Q1",
+      "net_flow_usd": 0.0,
+      "as_of": "2026-03-31",
+      "source": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001318605&type=10-Q"
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "_meta": {
+    "schema": "chainreserve.entities/1",
+    "description": "PUBLIC centralized-exchange reserve snapshots from proof-of-reserves attestations and on-chain wallet labels, for a cross-exchange comparison. Entity-level only. Every record carries a public source URL.",
+    "as_of": "2026-05-01"
+  },
+  "reserves": [
+    {
+      "entity": "Binance",
+      "kind": "cex",
+      "jurisdiction": "global",
+      "asset": "BTC",
+      "amount": 582485.0,
+      "unit": "BTC",
+      "as_of": "2026-05-01",
+      "method": "proof-of-reserves attestation",
+      "source": "https://www.binance.com/en/proof-of-reserves"
+    },
+    {
+      "entity": "Coinbase",
+      "kind": "cex",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "amount": 956000.0,
+      "unit": "BTC",
+      "as_of": "2026-03-31",
+      "method": "10-Q custodial disclosure (illustrative)",
+      "source": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001679788&type=10-Q"
+    },
+    {
+      "entity": "Kraken",
+      "kind": "cex",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "amount": 142000.0,
+      "unit": "BTC",
+      "as_of": "2026-04-15",
+      "method": "proof-of-reserves attestation",
+      "source": "https://www.kraken.com/proof-of-reserves"
+    },
+    {
+      "entity": "OKX",
+      "kind": "cex",
+      "jurisdiction": "global",
+      "asset": "BTC",
+      "amount": 121000.0,
+      "unit": "BTC",
+      "as_of": "2026-05-01",
+      "method": "proof-of-reserves attestation",
+      "source": "https://www.okx.com/proof-of-reserves"
+    },
+    {
+      "entity": "Bitfinex",
+      "kind": "cex",
+      "jurisdiction": "global",
+      "asset": "BTC",
+      "amount": 198000.0,
+      "unit": "BTC",
+      "as_of": "2026-05-01",
+      "method": "public wallet labels (on-chain)",
+      "source": "https://www.bitfinex.com/posts/"
+    },
+    {
+      "entity": "Binance",
+      "kind": "cex",
+      "jurisdiction": "global",
+      "asset": "ETH",
+      "amount": 4210000.0,
+      "unit": "ETH",
+      "as_of": "2026-05-01",
+      "method": "proof-of-reserves attestation",
+      "source": "https://www.binance.com/en/proof-of-reserves"
+    },
+    {
+      "entity": "Coinbase",
+      "kind": "cex",
+      "jurisdiction": "US",
+      "asset": "ETH",
+      "amount": 3100000.0,
+      "unit": "ETH",
+      "as_of": "2026-03-31",
+      "method": "10-Q custodial disclosure (illustrative)",
+      "source": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001679788&type=10-Q"
+    }
+  ]
+}

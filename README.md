@@ -46,9 +46,11 @@ It runs as a **CLI** and as a local **MCP server** (stdio JSON-RPC), with
    ```bash
    chainreserve entity Binance --format json
    ```
-5. **Export / automate** the whole dataset for downstream pipelines:
+5. **Export / automate** the whole dataset for downstream pipelines
+   (`json` · `csv` · `graphml` · **`stix`** — STIX 2.1 bundle):
    ```bash
-   chainreserve export --format csv --since 2024-01-01 --out reserves.csv
+   chainreserve export --format csv  --since 2024-01-01 --out reserves.csv
+   chainreserve export --format stix                    --out chainreserve.stix.json
    ```
    Other subcommands: `flows`, `seizures`, `reserves-strategic`, `whales`, and `mcp` (MCP stdio server).
 
@@ -103,14 +105,28 @@ Common flags: `--format {table,json}`, `--data PATH` (use your own dataset),
 `--asset SYMBOL`, and `--enrich` (best-effort, offline-safe public BTC/USD
 price annotation).
 
-### Demo
+### Demos
+
+Each demo is a self-contained folder with a dataset **in the real input format**
+and a `SCENARIO.md` (where the data came from, the exact run command, what to
+expect, and how to act):
+
+| Demo | Use case |
+|------|----------|
+| [`01-basic`](demos/01-basic/SCENARIO.md) | End-to-end tour across all five categories |
+| [`02-etf-flows-monthly`](demos/02-etf-flows-monthly/SCENARIO.md) | Monthly spot-ETF & treasury net-flow desk note (inflows vs. outflows) |
+| [`03-government-seizures`](demos/03-government-seizures/SCENARIO.md) | Multi-jurisdiction seizure tracking (DOJ, BKA, NCA) + `--since` filter |
+| [`04-sovereign-reserves`](demos/04-sovereign-reserves/SCENARIO.md) | Sovereign strategic-reserve monitor (El Salvador, Bhutan, US) + `--enrich` |
+| [`05-exchange-por-audit`](demos/05-exchange-por-audit/SCENARIO.md) | Cross-exchange proof-of-reserves concentration audit |
+| [`06-whale-clusters`](demos/06-whale-clusters/SCENARIO.md) | Labeled on-chain whale-cluster watch (estates, cold wallets) |
+| [`07-stix-export-soc`](demos/07-stix-export-soc/SCENARIO.md) | STIX 2.1 export into a SOC / threat-intel platform |
+| [`08-source-integrity-qa`](demos/08-source-integrity-qa/SCENARIO.md) | Data-quality gate: flag unsourced / non-URL records in CI |
+
+Quick start:
 
 ```bash
 python -m chainreserve reserves --data demos/01-basic/sample-entities.json
 ```
-
-See [`demos/01-basic/SCENARIO.md`](demos/01-basic/SCENARIO.md) for the full
-walkthrough and expected output.
 
 ## Data sources
 
@@ -143,6 +159,27 @@ Wire it into Cognis.Studio, Claude Desktop, or Cursor:
 ```
 
 Tools exposed: `query_category` and `query_entity`.
+
+## STIX 2.1 export
+
+`chainreserve export --format stix` serializes the dataset as a **STIX 2.1
+bundle** so public entity-level intelligence can be ingested by a TIP/SOC or
+pushed over TAXII. Each distinct entity becomes an `identity` SDO; each record
+becomes a `note` SDO that references its identity, summarizes the
+holding/seizure/flow in `content`, tags `labels` (e.g. `["chainreserve",
+"seizures", "btc"]`), and pins the public `source` URL as an
+`external_references[].url`. Object ids are **deterministic** UUIDv5 values, so
+re-exporting the same dataset yields a byte-for-byte identical bundle
+(idempotent re-ingest; diff two days to see exactly what changed).
+
+```bash
+python -m chainreserve export --format stix --data demos/07-stix-export-soc/feed.json
+```
+
+See [`demos/07-stix-export-soc/SCENARIO.md`](demos/07-stix-export-soc/SCENARIO.md)
+for a full SOC walkthrough. For platform-specific routing
+(MISP/Sigma/Splunk/Slack), pipe the JSON output through `chainreserve-emit`
+(see [INTEGRATIONS.md](INTEGRATIONS.md)).
 
 ## Development
 

@@ -1,0 +1,42 @@
+{
+  "_meta": {
+    "schema": "chainreserve.entities/1",
+    "description": "A DELIBERATELY IMPERFECT dataset used to demonstrate chainreserve's built-in source-integrity QA. Some records are missing a source URL or carry a non-URL placeholder; the tool surfaces these as data-quality notes rather than silently trusting them. The well-formed records are illustrative public snapshots.",
+    "as_of": "2026-05-31"
+  },
+  "reserves": [
+    {
+      "entity": "Coinbase",
+      "kind": "cex",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "amount": 956000.0,
+      "unit": "BTC",
+      "as_of": "2026-03-31",
+      "method": "10-Q custodial disclosure (illustrative)",
+      "source": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001679788&type=10-Q"
+    },
+    {
+      "entity": "ExampleExchange (unverified)",
+      "kind": "cex",
+      "jurisdiction": "global",
+      "asset": "BTC",
+      "amount": 50000.0,
+      "unit": "BTC",
+      "as_of": "2026-05-01",
+      "method": "third-party estimate",
+      "source": ""
+    },
+    {
+      "entity": "PlaceholderVenue (bad-source)",
+      "kind": "cex",
+      "jurisdiction": "global",
+      "asset": "BTC",
+      "amount": 25000.0,
+      "unit": "BTC",
+      "as_of": "2026-05-01",
+      "method": "internal note",
+      "source": "see internal wiki page 42"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "_meta": {
+    "schema": "chainreserve.entities/1",
+    "description": "PUBLIC labeled on-chain whale clusters (estates, trustee wallets, exchange cold storage). Entity-level on-chain labels only; NO private-individual PII and NO deanonymization. Every record carries a public block-explorer or official source URL.",
+    "as_of": "2026-05-01"
+  },
+  "whales": [
+    {
+      "entity": "Silk Road / Individual X cluster (forfeited)",
+      "kind": "whale_cluster",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "amount": 69370.0,
+      "unit": "BTC",
+      "label": "DOJ-controlled, on-chain labeled",
+      "as_of": "2026-01-01",
+      "source": "https://www.blockchain.com/explorer/addresses/btc/bc1qa5wkgaew2dkv56kfvj49j0av5nml45x9ek9hz6"
+    },
+    {
+      "entity": "Mt. Gox Estate (rehabilitation trustee)",
+      "kind": "whale_cluster",
+      "jurisdiction": "JP",
+      "asset": "BTC",
+      "amount": 135000.0,
+      "unit": "BTC",
+      "label": "trustee distribution wallets, on-chain labeled",
+      "as_of": "2026-02-01",
+      "source": "https://www.mtgox.com/"
+    },
+    {
+      "entity": "Binance cold wallet cluster",
+      "kind": "whale_cluster",
+      "jurisdiction": "global",
+      "asset": "BTC",
+      "amount": 248597.0,
+      "unit": "BTC",
+      "label": "exchange cold storage, on-chain labeled",
+      "as_of": "2026-05-01",
+      "source": "https://www.blockchain.com/explorer/addresses/btc/34xp4vRoCGJym3xR7yCVPFHoCNxv4Twseo"
+    }
+  ]
+}

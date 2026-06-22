@@ -1,0 +1,42 @@
+{
+  "_meta": {
+    "schema": "chainreserve.entities/1",
+    "description": "PUBLIC sovereign / public-sector strategic BTC reserve programs. Illustrative snapshots of official government disclosures and public dashboards. Entity-level (the state / sovereign holding vehicle) only. Every record carries a public source URL.",
+    "as_of": "2026-05-31"
+  },
+  "strategic_reserves": [
+    {
+      "entity": "El Salvador (Government)",
+      "kind": "sovereign_reserve",
+      "jurisdiction": "SV",
+      "asset": "BTC",
+      "amount": 6089.0,
+      "unit": "BTC",
+      "program": "Bitcoin Law / national treasury",
+      "as_of": "2026-05-31",
+      "source": "https://bitcoin.gob.sv/"
+    },
+    {
+      "entity": "Kingdom of Bhutan (Druk Holding & Investments)",
+      "kind": "sovereign_reserve",
+      "jurisdiction": "BT",
+      "asset": "BTC",
+      "amount": 13029.0,
+      "unit": "BTC",
+      "program": "sovereign investment / state-owned mining",
+      "as_of": "2026-04-30",
+      "source": "https://www.dhi.bt/"
+    },
+    {
+      "entity": "United States (Strategic Bitcoin Reserve)",
+      "kind": "sovereign_reserve",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "amount": 198000.0,
+      "unit": "BTC",
+      "program": "Executive Order strategic reserve (forfeited-asset funded, illustrative)",
+      "as_of": "2026-03-06",
+      "source": "https://www.whitehouse.gov/presidential-actions/"
+    }
+  ]
+}

@@ -18,6 +18,7 @@ from chainreserve.core import (
     load_dataset,
     query_category,
     query_entity,
+    records_to_stix,
     resolve_data_path,
 )
 
@@ -37,5 +38,6 @@ __all__ = [
     "load_dataset",
     "query_category",
     "query_entity",
+    "records_to_stix",
     "resolve_data_path",
 ]

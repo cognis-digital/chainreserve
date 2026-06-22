@@ -131,8 +131,8 @@ def _build_parser() -> argparse.ArgumentParser:
     sub.add_parser("categories", help="List the tracked intelligence categories.")
     sub.add_parser("mcp", help="Run as an MCP server (stdio JSON-RPC).")
 
-    ex = sub.add_parser("export", help="Export the whole dataset (json/csv/graphml).")
-    ex.add_argument("--format", choices=("json", "csv", "graphml"), default="json")
+    ex = sub.add_parser("export", help="Export the whole dataset (json/csv/graphml/stix).")
+    ex.add_argument("--format", choices=("json", "csv", "graphml", "stix"), default="json")
     ex.add_argument("--data", help="Path to an entities dataset JSON.")
     ex.add_argument("--out", help="Write to this file instead of stdout.")
     ex.add_argument("--since", help="Filter time-bearing rows on/after YYYY-MM-DD.")

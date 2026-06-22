@@ -1,0 +1,47 @@
+{
+  "_meta": {
+    "schema": "chainreserve.entities/1",
+    "description": "A small mixed feed (exchange reserves + a government seizure + a sovereign reserve) used to demonstrate STIX 2.1 export into a threat-intel platform / SOC. PUBLIC, entity-level only. Every record carries a public source URL.",
+    "as_of": "2026-05-31"
+  },
+  "reserves": [
+    {
+      "entity": "Coinbase",
+      "kind": "cex",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "amount": 956000.0,
+      "unit": "BTC",
+      "as_of": "2026-03-31",
+      "method": "10-Q custodial disclosure (illustrative)",
+      "source": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001679788&type=10-Q"
+    }
+  ],
+  "seizures": [
+    {
+      "entity": "U.S. DOJ",
+      "kind": "government_seizure",
+      "jurisdiction": "US",
+      "asset": "BTC",
+      "amount": 94636.0,
+      "unit": "BTC",
+      "case": "Bitfinex 2016 hack recovery",
+      "event_date": "2022-02-08",
+      "status": "seized",
+      "source": "https://www.justice.gov/opa/pr/two-arrested-alleged-conspiracy-launder-45-billion-stolen-cryptocurrency"
+    }
+  ],
+  "strategic_reserves": [
+    {
+      "entity": "El Salvador (Government)",
+      "kind": "sovereign_reserve",
+      "jurisdiction": "SV",
+      "asset": "BTC",
+      "amount": 6089.0,
+      "unit": "BTC",
+      "program": "Bitcoin Law / national treasury",
+      "as_of": "2026-05-31",
+      "source": "https://bitcoin.gob.sv/"
+    }
+  ]
+}
