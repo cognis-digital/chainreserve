@@ -1,0 +1,8 @@
+{
+  "feed": "ofac-sdn",
+  "url": "https://www.treasury.gov/ofac/downloads/sdn.csv",
+  "fetched_at": 1782131585.4509354,
+  "bytes": 945,
+  "format": "csv",
+  "note": "TRIMMED TEST FIXTURE \u2014 not the full OFAC SDN list."
+}

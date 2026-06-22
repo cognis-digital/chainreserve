@@ -105,6 +105,63 @@ Common flags: `--format {table,json}`, `--data PATH` (use your own dataset),
 `--asset SYMBOL`, and `--enrich` (best-effort, offline-safe public BTC/USD
 price annotation).
 
+## OFAC sanctions screening (real data feed)
+
+`chainreserve` ships an edge/air-gap-deployable **data-feed ingestion layer**
+and uses it to cross-reference your dataset against the U.S. Treasury **OFAC
+Specially Designated Nationals (SDN)** list — the authoritative sanctions feed.
+This is a real compliance enrichment, not cosmetic: every reserve / flow /
+seizure / strategic-reserve / whale record is screened two ways —
+
+- **by on-chain address** — OFAC publishes sanctioned *Digital Currency
+  Addresses* in the SDN `Remarks` column; chainreserve extracts the on-chain
+  addresses embedded in each record's public `source` URL / `address` field and
+  flags exact matches, and
+- **by entity name** — sanctioned org/person names are matched (case- and
+  whitespace-normalized, exact — no fuzzy false positives) against `entity`.
+
+Each hit carries the SDN entry number, listed name, and program (e.g. `CYBER2`,
+`DPRK3`) for analyst triage. Strictly defensive / authorized-use compliance
+screening over PUBLIC data.
+
+```bash
+# List this repo's relevant feed(s) and cache freshness:
+python -m chainreserve feeds list
+
+# Fetch + cache the live OFAC SDN feed (online, keyless):
+python -m chainreserve feeds update ofac-sdn
+
+# Re-serve the cached snapshot with NO network (air-gap):
+python -m chainreserve feeds get ofac-sdn --offline
+
+# Screen the dataset against the cached SDN list, offline:
+python -m chainreserve sanctions-screen --offline
+python -m chainreserve sanctions-screen --offline --format json
+```
+
+### Edge / air-gap workflow
+
+The ingestion layer (`chainreserve/datafeeds.py` + the bundled catalog
+`chainreserve/data_feeds_2026.json`) is **standard-library only**: it fetches
+over HTTPS with a UA, caches to disk under `COGNIS_FEEDS_CACHE`
+(default `~/.cache/cognis-feeds`), and re-serves **offline** so the tool keeps
+working on disconnected / edge gear. For a true air gap, snapshot the cache on a
+connected host and sneakernet it across:
+
+```bash
+# On a connected host: cache the feed, then bundle the cache.
+python -m chainreserve feeds update ofac-sdn
+python -m chainreserve.datafeeds snapshot-export ofac.tar.gz
+
+# On the air-gapped host: import the snapshot, then screen offline.
+COGNIS_FEEDS_CACHE=/opt/cognis-feeds python -m chainreserve.datafeeds snapshot-import ofac.tar.gz
+COGNIS_FEEDS_CACHE=/opt/cognis-feeds python -m chainreserve sanctions-screen --offline
+```
+
+Real source (keyless): **U.S. Treasury OFAC SDN list** —
+`https://www.treasury.gov/ofac/downloads/sdn.csv`
+(consolidated: `https://www.treasury.gov/ofac/downloads/consolidated/cons_prim.csv`).
+
 ### Demos
 
 Each demo is a self-contained folder with a dataset **in the real input format**
@@ -121,6 +178,7 @@ expect, and how to act):
 | [`06-whale-clusters`](demos/06-whale-clusters/SCENARIO.md) | Labeled on-chain whale-cluster watch (estates, cold wallets) |
 | [`07-stix-export-soc`](demos/07-stix-export-soc/SCENARIO.md) | STIX 2.1 export into a SOC / threat-intel platform |
 | [`08-source-integrity-qa`](demos/08-source-integrity-qa/SCENARIO.md) | Data-quality gate: flag unsourced / non-URL records in CI |
+| [`09-ofac-sanctions-screen`](demos/09-ofac-sanctions-screen/SCENARIO.md) | OFAC SDN sanctions screening (by on-chain address + entity name), fully offline |
 
 Quick start:
 

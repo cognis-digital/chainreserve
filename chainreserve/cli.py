@@ -12,10 +12,17 @@ from chainreserve.core import (
     CATEGORIES,
     DataError,
     Report,
+    all_records,
     enrich_btc_price,
     export,
+    load_dataset,
     query_category,
     query_entity,
+)
+from chainreserve.sanctions import (
+    RELEVANT_FEEDS,
+    load_sanctions_index,
+    screen_records,
 )
 
 # Map the user-facing subcommand to the dataset category.
@@ -131,6 +138,32 @@ def _build_parser() -> argparse.ArgumentParser:
     sub.add_parser("categories", help="List the tracked intelligence categories.")
     sub.add_parser("mcp", help="Run as an MCP server (stdio JSON-RPC).")
 
+    # --- edge/air-gap data feeds (bundled datafeeds layer) ----------------- #
+    feeds = sub.add_parser(
+        "feeds",
+        help="Manage the bundled OFAC SDN data feed (list/update/get).")
+    feeds_sub = feeds.add_subparsers(dest="feeds_cmd")
+    feeds_sub.add_parser("list", help="List this repo's relevant catalog feeds.")
+    fu = feeds_sub.add_parser("update", help="Fetch + cache a feed (online).")
+    fu.add_argument("id", nargs="?", default="ofac-sdn",
+                    help="Feed id (default: ofac-sdn).")
+    fg = feeds_sub.add_parser("get", help="Print a cached/fetched feed.")
+    fg.add_argument("id", nargs="?", default="ofac-sdn",
+                    help="Feed id (default: ofac-sdn).")
+    fg.add_argument("--offline", action="store_true",
+                    help="Serve from cache only; never touch the network.")
+
+    # --- OFAC SDN sanctions screening (the real enrichment) ---------------- #
+    scr = sub.add_parser(
+        "sanctions-screen",
+        help="Cross-reference dataset records against the OFAC SDN list.")
+    scr.add_argument("--data", default=None,
+                     help="Path to an entities JSON dataset (overrides defaults).")
+    scr.add_argument("--offline", action="store_true",
+                     help="Use the cached OFAC SDN snapshot only (air-gap).")
+    scr.add_argument("--format", choices=("table", "json"), default="table",
+                     help="Output format (default: table).")
+
     ex = sub.add_parser("export", help="Export the whole dataset (json/csv/graphml/stix).")
     ex.add_argument("--format", choices=("json", "csv", "graphml", "stix"), default="json")
     ex.add_argument("--data", help="Path to an entities dataset JSON.")
@@ -194,6 +227,101 @@ def _run_export(args: argparse.Namespace) -> int:
     return 0
 
 
+def _run_feeds(args: argparse.Namespace) -> int:
+    from chainreserve import datafeeds
+
+    cmd = getattr(args, "feeds_cmd", None)
+    if cmd == "list":
+        print(f"{TOOL_NAME} {TOOL_VERSION} — relevant data feeds")
+        print("=" * 72)
+        feeds = {f["id"]: f for f in datafeeds.list_feeds()}
+        for fid in RELEVANT_FEEDS:
+            f = feeds.get(fid)
+            if not f:
+                print(f"  {fid:14} (not in catalog)")
+                continue
+            age = datafeeds.cached_age_hours(fid)
+            fresh = "uncached" if age is None else f"{age:.1f}h old"
+            print(f"  {fid:14} [{fresh:>10}]  {f['name']}")
+            print(f"  {'':14}              {f['url']}")
+        print("-" * 72)
+        print("Edge/air-gap: 'feeds update' caches; 'feeds get --offline' re-serves.")
+        return 0
+
+    fid = getattr(args, "id", "ofac-sdn")
+    if fid not in RELEVANT_FEEDS:
+        print(f"error: '{fid}' is not a feed this repo consumes "
+              f"(allowed: {', '.join(RELEVANT_FEEDS)})", file=sys.stderr)
+        return 2
+    if cmd == "update":
+        try:
+            path = datafeeds.update(fid)
+        except (KeyError, ConnectionError) as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            return 1
+        print(f"updated {fid} -> {path} ({path.stat().st_size} bytes)")
+        return 0
+    if cmd == "get":
+        try:
+            data = datafeeds.get(fid, offline=args.offline)
+        except (KeyError, FileNotFoundError, ConnectionError) as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            return 1
+        text = data if isinstance(data, str) else json.dumps(data, indent=2)
+        print(text[:4000])
+        return 0
+    print("usage: chainreserve feeds list|update|get [--offline]", file=sys.stderr)
+    return 2
+
+
+def _run_sanctions_screen(args: argparse.Namespace) -> int:
+    try:
+        index = load_sanctions_index(offline=args.offline)
+    except FileNotFoundError as exc:
+        print(f"error: {exc}\nhint: run 'chainreserve feeds update ofac-sdn' first, "
+              "or drop --offline.", file=sys.stderr)
+        return 1
+    except (KeyError, ConnectionError) as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 1
+    try:
+        data = load_dataset(args.data)
+    except DataError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
+    rows = [r.to_dict() for r in all_records(data)]
+    hits = screen_records(rows, index)
+
+    if args.format == "json":
+        print(json.dumps({
+            "tool": TOOL_NAME,
+            "version": TOOL_VERSION,
+            "feed": "ofac-sdn",
+            "sdn_entries": index.entry_count,
+            "sdn_addresses": index.address_count,
+            "records_screened": len(rows),
+            "hit_count": len(hits),
+            "hits": [h.to_dict() for h in hits],
+        }, indent=2))
+        return 0
+
+    print(f"{TOOL_NAME} — OFAC SDN sanctions screen")
+    print("=" * 72)
+    print(f"SDN entries indexed: {index.entry_count}  "
+          f"(crypto addresses: {index.address_count})")
+    print(f"records screened:    {len(rows)}")
+    print(f"sanctions hits:      {len(hits)}")
+    print("-" * 72)
+    if not hits:
+        print("No records matched the OFAC SDN list.")
+    for h in hits:
+        print(f"[HIT] {h.entity}  [{h.asset or '-'}]  ({h.category})")
+        print(f"      matched on {h.matched_on}: {h.matched_value}")
+        print(f"      SDN #{h.sdn.ent_num}  {h.sdn.name}  "
+              f"type={h.sdn.sdn_type}  program={h.sdn.program}")
+    return 0
+
+
 def main(argv: Optional[List[str]] = None) -> int:
     parser = _build_parser()
     args = parser.parse_args(argv)
@@ -205,6 +333,10 @@ def main(argv: Optional[List[str]] = None) -> int:
         return _run_entity(args)
     if args.command == "categories":
         return _run_categories()
+    if args.command == "feeds":
+        return _run_feeds(args)
+    if args.command == "sanctions-screen":
+        return _run_sanctions_screen(args)
     if args.command == "mcp":
         from chainreserve.mcp_server import run_mcp_server
         run_mcp_server()
