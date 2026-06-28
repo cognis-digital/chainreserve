@@ -1,0 +1,31 @@
+$ chainreserve-emit --help
+
+usage: chainreserve [-h] [--version]
+                    {reserves,flows,seizures,reserves-strategic,whales,entity,categories,mcp,feeds,sanctions-screen,export} ...
+
+Open crypto market/reserve/seizure intelligence tracker. PUBLIC, entity-level
+data only; every record carries a public source URL.
+
+positional arguments:
+  {reserves,flows,seizures,reserves-strategic,whales,entity,categories,mcp,feeds,sanctions-screen,export}
+    reserves            Centralized-exchange reserves (proof-of-reserves /
+                        labels).
+    flows               ETF and public-company treasury holdings / net flows.
+    seizures            Government seizures / forfeitures (US Marshals, BKA,
+                        NCA...).
+    reserves-strategic  Sovereign / public strategic reserves (El Salvador,
+                        Bhutan...).
+    whales              Labeled on-chain whale clusters (estates, exchange
+                        cold wallets).
+    entity              All public records across categories for one entity.
+    categories          List the tracked intelligence categories.
+    mcp                 Run as an MCP server (stdio JSON-RPC).
+    feeds               Manage the bundled OFAC SDN data feed
+                        (list/update/get).
+    sanctions-screen    Cross-reference dataset records against the OFAC SDN
+                        list.
+    export              Export the whole dataset (json/csv/graphml/stix).
+
+options:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit

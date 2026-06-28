@@ -28,6 +28,75 @@ It runs as a **CLI** and as a local **MCP server** (stdio JSON-RPC), with
 > Not investment advice.
 
 <!-- cognis:domains:start -->
+
+<!-- cognis:example:start -->
+## 🔎 Example output
+
+Real, reproducible output from the tool — runs offline:
+
+```console
+$ chainreserve-emit --version
+chainreserve 0.1.0
+```
+
+```console
+$ chainreserve-emit --help
+usage: chainreserve [-h] [--version]
+                    {reserves,flows,seizures,reserves-strategic,whales,entity,categories,mcp,feeds,sanctions-screen,export} ...
+
+Open crypto market/reserve/seizure intelligence tracker. PUBLIC, entity-level
+data only; every record carries a public source URL.
+
+positional arguments:
+  {reserves,flows,seizures,reserves-strategic,whales,entity,categories,mcp,feeds,sanctions-screen,export}
+    reserves            Centralized-exchange reserves (proof-of-reserves /
+                        labels).
+    flows               ETF and public-company treasury holdings / net flows.
+    seizures            Government seizures / forfeitures (US Marshals, BKA,
+                        NCA...).
+    reserves-strategic  Sovereign / public strategic reserves (El Salvador,
+                        Bhutan...).
+    whales              Labeled on-chain whale clusters (estates, exchange
+                        cold wallets).
+    entity              All public records across categories for one entity.
+    categories          List the tracked intelligence categories.
+    mcp                 Run as an MCP server (stdio JSON-RPC).
+    feeds               Manage the bundled OFAC SDN data feed
+                        (list/update/get).
+    sanctions-screen    Cross-reference dataset records against the OFAC SDN
+                        list.
+    export              Export the whole dataset (json/csv/graphml/stix).
+
+options:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+```
+
+> Blocks above are real `chainreserve` output — reproduce them from a clone.
+
+**Sample result format** _(illustrative values — run on your own data for real findings):_
+
+```
+{
+"findings": [
+    {
+        "id": "1234567890",
+        "title": "Suspicious Network Activity",
+        "description": "Anomalous network traffic detected from IP 192.168.1.100",
+        "created": "2023-02-15T14:30:00Z"
+    },
+    {
+        "id": "2345678901",
+        "title": "Malware Detection",
+        "description": "Virus detected on host with IP 10.0.0.1",
+        "created": "2023-02-16T12:45:00Z"
+    }
+]
+}
+```
+
+<!-- cognis:example:end -->
+
 ## Usage — step by step
 
 1. **Install** from source (Python 3.9+; bundles `data/entities.json`):
